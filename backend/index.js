@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 //Utils
 
 import connectDB from "./config/db.js";
+import userRoutes from "./routes/userRoutes.js";
 
 //Load env variables
 
@@ -25,8 +26,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.send("API is Running...");
-});
+app.use("api/users", userRoutes);
 
 app.listen(port, () => console.log("Server Running on Port "));
