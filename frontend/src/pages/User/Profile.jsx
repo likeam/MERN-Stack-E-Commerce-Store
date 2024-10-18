@@ -16,7 +16,7 @@ const Profile = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [updateProfile, { isLoading, loadingUpdateProfile }] =
+  const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
 
   const submitHandler = async (e) => {
