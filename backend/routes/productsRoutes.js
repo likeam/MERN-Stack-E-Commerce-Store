@@ -8,6 +8,9 @@ import {
   fetchProducts,
   fetchAllProducts,
   addProductReview,
+  fetchNewProducts,
+  fetchTopProducts,
+  filterProducts,
 } from "../controller/productController.js";
 import formidable from "express-formidable";
 import checkId from "../middlewares/checkId.js";
@@ -28,7 +31,10 @@ router
 
 // Fetch all products
 router.route("/allproducts").get(fetchAllProducts);
+router.route("/:id/reviews").post(authenticate, checkId, addProductReview);
 
-router.route("/id/reviews").post(authenticate, checkId, addProductReview);
+router.get("/top", fetchTopProducts);
+router.get("/new", fetchNewProducts);
+router.route("/filtered-products").post(filterProducts);
 
 export default router;

@@ -141,15 +141,15 @@ const addProductReview = asyncHandler(async (req, res) => {
         throw new Error("User has already reviewed this product");
       }
       const review = {
-        user: req.user._id,
-        name: req.user.name,
+        name: req.user.username,
         rating: Number(rating),
         comment,
+        user: req.user._id,
       };
       product.reviews.push(review);
       product.numReviews = product.reviews.length;
       product.rating =
-        product.reviews.reduce((acc, review) => acc + review.rating, 0) /
+        product.reviews.reduce((acc, item) => acc + item.rating, 0) /
         product.reviews.length;
 
       await product.save();
@@ -164,6 +164,41 @@ const addProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+const fetchTopProducts = asyncHandler(async (req, res) => {
+  try {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(4);
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json(error.message);
+  }
+});
+
+const fetchNewProducts = asyncHandler(async (req, res) => {
+  try {
+    const products = await Product.find().sort({ _id: -1 }).limit(5);
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json(error.message);
+  }
+});
+
+const filterProducts = asyncHandler(async (req, res) => {
+  try {
+    const { checked, radio } = req.query;
+    let args = {};
+    if (checked.length > 0) args.category = checked;
+    if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+
+    const products = await Product.find(args);
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Service error" });
+  }
+});
+
 export {
   addProduct,
   updateProductDetails,
@@ -172,4 +207,7 @@ export {
   fetchProductById,
   fetchAllProducts,
   addProductReview,
+  fetchNewProducts,
+  fetchTopProducts,
+  filterProducts,
 };

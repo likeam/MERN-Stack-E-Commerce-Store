@@ -10,6 +10,7 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productsRoutes from "./routes/productsRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
 //Load env variables
 
@@ -31,5 +32,6 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/products", productsRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.listen(port, () => console.log("Server Running on Port "));
