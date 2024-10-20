@@ -1,5 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Category from "../models/categoryModel.js";
+import Product from "../models/productModal.js";
 
 const createCategory = asyncHandler(async (req, res) => {
   try {
@@ -72,8 +73,8 @@ const readCategory = asyncHandler(async (req, res) => {
     }
     res.json(cat);
   } catch (error) {
-    console.log(error);
-    return res.status(400).json(error.message);
+    console.error(error);
+    res.status(400).json({ error: "Server error" });
   }
 });
 
