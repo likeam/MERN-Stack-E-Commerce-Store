@@ -5,22 +5,23 @@ const addProduct = asyncHandler(async (req, res) => {
   try {
     const { name, description, price, category, quantity, brand } = req.fields;
 
+    // Validation
     switch (true) {
       case !name:
-        return res.status(400).json({ error: "Name is required" });
-      case !description:
-        return res.status(400).json({ error: "Description is required" });
-      case !price:
-        return res.status(400).json({ error: "Price is required" });
-      case !category:
-        return res.status(400).json({ error: "Category is required" });
-      case !quantity:
-        return res.status(400).json({ error: "Quantity is required" });
+        return res.json({ error: "Name is required" });
       case !brand:
-        return res.status(400).json({ error: "Brand is required" });
+        return res.json({ error: "Brand is required" });
+      case !description:
+        return res.json({ error: "Description is required" });
+      case !price:
+        return res.json({ error: "Price is required" });
+      case !category:
+        return res.json({ error: "Category is required" });
+      case !quantity:
+        return res.json({ error: "Quantity is required" });
     }
 
-    const product = await Product.create({ ...req.fields });
+    const product = new Product({ ...req.fields });
     await product.save();
     res.json(product);
   } catch (error) {
@@ -33,19 +34,20 @@ const updateProductDetails = asyncHandler(async (req, res) => {
   try {
     const { name, description, price, category, quantity, brand } = req.fields;
 
+    // Validation
     switch (true) {
       case !name:
-        return res.status(400).json({ error: "Name is required" });
-      case !description:
-        return res.status(400).json({ error: "Description is required" });
-      case !price:
-        return res.status(400).json({ error: "Price is required" });
-      case !category:
-        return res.status(400).json({ error: "Category is required" });
-      case !quantity:
-        return res.status(400).json({ error: "Quantity is required" });
+        return res.json({ error: "Name is required" });
       case !brand:
-        return res.status(400).json({ error: "Brand is required" });
+        return res.json({ error: "Brand is required" });
+      case !description:
+        return res.json({ error: "Description is required" });
+      case !price:
+        return res.json({ error: "Price is required" });
+      case !category:
+        return res.json({ error: "Category is required" });
+      case !quantity:
+        return res.json({ error: "Quantity is required" });
     }
 
     const product = await Product.findByIdAndUpdate(
@@ -55,6 +57,7 @@ const updateProductDetails = asyncHandler(async (req, res) => {
     );
 
     await product.save();
+
     res.json(product);
   } catch (error) {
     console.error(error);
@@ -87,6 +90,7 @@ const fetchProducts = asyncHandler(async (req, res) => {
 
     const count = await Product.countDocuments({ ...keyword });
     const products = await Product.find({ ...keyword }).limit(pageSize);
+
     res.json({
       products,
       page: 1,
@@ -95,7 +99,7 @@ const fetchProducts = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "server error" });
+    res.status(500).json({ error: "Server Error" });
   }
 });
 
@@ -110,7 +114,7 @@ const fetchProductById = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(404).json({ error: "Product not Found" });
+    res.status(404).json({ error: "Product not found" });
   }
 });
 
@@ -120,10 +124,11 @@ const fetchAllProducts = asyncHandler(async (req, res) => {
       .populate("category")
       .limit(12)
       .sort({ createAt: -1 });
+
     res.json(products);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server Error" });
   }
 });
 
@@ -136,24 +141,29 @@ const addProductReview = asyncHandler(async (req, res) => {
       const alreadyReviewed = product.reviews.find(
         (r) => r.user.toString() === req.user._id.toString()
       );
+
       if (alreadyReviewed) {
         res.status(400);
-        throw new Error("User has already reviewed this product");
+        throw new Error("Product already reviewed");
       }
+
       const review = {
         name: req.user.username,
         rating: Number(rating),
         comment,
         user: req.user._id,
       };
+
       product.reviews.push(review);
+
       product.numReviews = product.reviews.length;
+
       product.rating =
-        product.reviews.reduce((acc, item) => acc + item.rating, 0) /
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
         product.reviews.length;
 
       await product.save();
-      res.status(201).json({ message: "Reviews saved successfully" });
+      res.status(201).json({ message: "Review added" });
     } else {
       res.status(404);
       throw new Error("Product not found");
@@ -186,7 +196,8 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
 
 const filterProducts = asyncHandler(async (req, res) => {
   try {
-    const { checked, radio } = req.query;
+    const { checked, radio } = req.body;
+
     let args = {};
     if (checked.length > 0) args.category = checked;
     if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
@@ -195,7 +206,7 @@ const filterProducts = asyncHandler(async (req, res) => {
     res.json(products);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Service error" });
+    res.status(500).json({ error: "Server Error" });
   }
 });
 
@@ -207,7 +218,7 @@ export {
   fetchProductById,
   fetchAllProducts,
   addProductReview,
-  fetchNewProducts,
   fetchTopProducts,
+  fetchNewProducts,
   filterProducts,
 };

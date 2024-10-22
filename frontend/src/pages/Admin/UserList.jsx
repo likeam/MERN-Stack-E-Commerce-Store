@@ -8,6 +8,7 @@ import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import AdminMenu from "./AdminMenu";
 
 const UserList = () => {
   const [editableUserId, setEditableUserId] = useState("");
@@ -54,6 +55,7 @@ const UserList = () => {
 
   return (
     <div className="pl-[10rem] p-4">
+      <AdminMenu />
       <h1 className=" text-2xl font-semibold mb-4">Users</h1>
       {isLoading ? (
         <Loader />

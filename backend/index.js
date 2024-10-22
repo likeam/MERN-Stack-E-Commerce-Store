@@ -34,4 +34,7 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/upload", uploadRoutes);
 
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
+
 app.listen(port, () => console.log("Server Running on Port "));
