@@ -1,3 +1,9 @@
+import { useGetTopProductsQuery } from "../../redux/api/productApiSlice";
+import Message from "../../components/Message";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import moment from "moment";
 import {
   FaBox,
   FaClock,
@@ -5,10 +11,6 @@ import {
   FaStar,
   FaStore,
 } from "react-icons/fa";
-import Message from "../../../components/Message";
-import { useGetTopProductsQuery } from "../../../redux/api/productApiSlice";
-import Slider from "react-slick";
-import moment from "moment";
 
 const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetTopProductsQuery();
@@ -33,7 +35,7 @@ const ProductCarousel = () => {
       ) : (
         <Slider
           {...settings}
-          className="xl:w-[50rem] lg:w-[50rem] md:w-[56rem] sm:block"
+          className="xl:w-[50rem]  lg:w-[50rem] md:w-[56rem] sm:w-[40rem] sm:block"
         >
           {products.map(
             ({

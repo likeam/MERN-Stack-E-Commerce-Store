@@ -1,8 +1,8 @@
 import { useParams } from "react-router";
 import { useGetTopProductsQuery } from "../redux/api/productApiSlice";
 import Loader from "./Loader";
-import SmallProduct from "../pages/Product/SmallProduct.jsx/SmallProduct";
-import ProductCarousel from "../pages/Product/SmallProduct.jsx/ProductCarousel";
+import SmallProduct from "../pages/Product/SmallProduct";
+import ProductCarousel from "../pages/Product/ProductCarousel";
 
 const Header = () => {
   const { keyword } = useParams();
