@@ -12,6 +12,7 @@ import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../../redux/api/userApiSlice";
 import { logout } from "../../redux/features/auth/authSlice";
+import FavoritesCount from "../Product/FavoritesCount";
 
 const Navigation = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -77,11 +78,12 @@ const Navigation = () => {
           <span className="hidden nav-item-name mt-[3rem]">CART</span>{" "}
         </Link>
         <Link
-          to="/favorite"
+          to="/favorites"
           className="flex items-center transition-transform transform hover:translate-x-2"
         >
           <FaHeart className="mr-2 mt-[3rem]" size={26} />
           <span className="hidden nav-item-name mt-[3rem]">SHOP</span>{" "}
+          <FavoritesCount />
         </Link>
       </div>
 
