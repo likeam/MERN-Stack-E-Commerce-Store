@@ -1,14 +1,13 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import {
-  useCreateReviewMutation,
-  useGetProductDetailsQuery,
-} from "../../redux/api/productApiSlice";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import {
+  useGetProductDetailsQuery,
+  useCreateReviewMutation,
+} from "../../redux/api/productApiSlice";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import HeartIcon from "./HeartIcon";
 import {
   FaBox,
   FaClock,
@@ -17,9 +16,10 @@ import {
   FaStore,
 } from "react-icons/fa";
 import moment from "moment";
+import HeartIcon from "./HeartIcon";
 import Ratings from "./Ratings";
 import ProductTabs from "./ProductTabs";
-import { addToChart } from "../../redux/features/";
+import { addToCart } from "../../redux/features/cart/cartSlice";
 
 const ProductDetails = () => {
   const { id: productId } = useParams();
@@ -33,8 +33,8 @@ const ProductDetails = () => {
   const {
     data: product,
     isLoading,
+    refetch,
     error,
-    refecth,
   } = useGetProductDetailsQuery(productId);
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -68,16 +68,17 @@ const ProductDetails = () => {
       <div>
         <Link
           to="/"
-          className=" text-white font-semibold hover:underline ml-[10rem]"
+          className="text-white font-semibold hover:underline ml-[10rem]"
         >
           Go Back
         </Link>
       </div>
+
       {isLoading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">
-          {error?.data.message || error.message}
+          {error?.data?.message || error.message}
         </Message>
       ) : (
         <>
