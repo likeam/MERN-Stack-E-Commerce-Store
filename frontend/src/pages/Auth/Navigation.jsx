@@ -85,7 +85,9 @@ const Navigation = () => {
         <Link to="/favorites" className="flex relative">
           <div className="flex items-center transition-transform transform hover:translate-x-2">
             <FaHeart className="mr-2 mt-[3rem]" size={26} />
-            <span className="hidden nav-item-name mt-[3rem]">SHOP</span>{" "}
+            <span className="hidden nav-item-name mt-[3rem]">
+              Favorite
+            </span>{" "}
           </div>
           <FavoritesCount />
         </Link>

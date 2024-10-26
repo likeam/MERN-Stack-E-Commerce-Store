@@ -1,6 +1,5 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Category from "../models/categoryModel.js";
-import Product from "../models/productModal.js";
 
 const createCategory = asyncHandler(async (req, res) => {
   try {

@@ -20,7 +20,7 @@ import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
 import AllProducts from "./pages/Admin/AllProducts.jsx";
 import Home from "./pages/Home.jsx";
 import Cart from "./pages/Cart.jsx";
-import Favorites from "./Favorites.jsx";
+import Favorites from "./pages/Product/Favorites.jsx";
 import ProductDetails from "./pages/Product/ProductDetails.jsx";
 import Shop from "./pages/Shop.jsx";
 
